@@ -1,15 +1,24 @@
+# Python (legacy)
 __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .venv/
-dist/
 build/
 *.pyc
 *.pyo
 *.pyd
 *.egg-info/
+
+# TypeScript
+dist/
+node_modules/
+*.tsbuildinfo
+
+# Environment
 .env
+
+# Misc
 uv.lock
 nul
 PROJECT.md

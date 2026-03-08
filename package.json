@@ -1,0 +1,35 @@
+{
+  "name": "dexplorer-cli",
+  "version": "0.1.0",
+  "description": "Unofficial CLI scanner, MCP server, and AI skill for Dexscreener token signals",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "ds": "dist/cli.js",
+    "dexplorer-mcp": "dist/mcp-server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli.js",
+    "mcp": "node dist/mcp-server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "dotenv": "^16.5.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.15",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

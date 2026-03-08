@@ -7,51 +7,47 @@ An **unofficial** CLI scanner, MCP server, and AI skill for Dexscreener token si
 ## Quick Commands
 
 ```bash
-ds setup                           # First-run calibration wizard
-ds hot --chains solana --limit 10  # Scan hot tokens
-ds watch --interval 7              # Live dashboard
-ds search pepe                     # Search tokens
-ds doctor                          # Diagnose setup issues
-ds update                          # Pull latest and reinstall
-dexplorer-mcp                    # Start MCP server
+npm run build                       # Build TypeScript
+node dist/cli.js hot --chains solana --limit 10  # Scan hot tokens
+node dist/cli.js watch --interval 7              # Live dashboard
+node dist/cli.js search pepe                     # Search tokens
+node dist/cli.js doctor                          # Diagnose setup issues
+node dist/mcp-server.js                          # Start MCP server
 ```
 
 ## Project Structure
 
 ```
-dexplorer_cli/
-  cli.py          - CLI commands (Typer). Entry point: ds
-  ui.py           - Terminal rendering (Rich). All visual code here.
-  scanner.py      - Token discovery, scoring pipeline
-  scoring.py      - 8-component scoring engine (0-100)
-  models.py       - PairSnapshot, HotTokenCandidate, CandidateAnalytics
-  holders.py      - Multi-provider holder counts (GeckoTerminal -> Moralis -> Blockscout -> Honeypot)
-  client.py       - Dexscreener API client with rate limiting
-  config.py       - Constants, ScanFilters dataclass
-  state.py        - Presets/tasks persistence (~/.dexplorer-cli/)
-  mcp_server.py   - MCP server (FastMCP). Entry point: dexplorer-mcp
-  alerts.py       - Discord/Telegram/webhook alert delivery
-  task_runner.py   - Task execution and scheduling
-  watch_controls.py - Keyboard controls for live mode
+src/
+  cli.ts          - CLI commands (Commander). Entry point: ds
+  mcp-server.ts   - MCP server (@modelcontextprotocol/sdk). Entry point: dexplorer-mcp
+  scanner.ts      - Token discovery, scoring pipeline
+  scoring.ts      - 8-component scoring engine (0-100)
+  models.ts       - PairSnapshot, HotTokenCandidate, CandidateAnalytics
+  holders.ts      - Multi-provider holder counts (GeckoTerminal -> Moralis -> Blockscout -> Honeypot)
+  client.ts       - Dexscreener API client with rate limiting
+  config.ts       - Constants, ScanFilters interface
+  state.ts        - Presets/tasks persistence (~/.dexplorer-cli/)
+  alerts.ts       - Discord/Telegram/webhook alert delivery with SSRF protection
+  task-runner.ts  - Task execution and scheduling
+  index.ts        - Public API re-exports
 ```
 
 ## Key Architecture
 
-- **Filter cascade**: `_resolved_filters()` in cli.py resolves: hardcoded defaults -> "default" preset -> explicit preset -> CLI flags
-- **Scoring**: 8 weighted components in scoring.py produce a 0-100 score per token
-- **Scan profiles**: strict/balanced/discovery baselines in cli.py with chain multipliers
-- **UI separation**: Only cli.py imports from ui.py. All rendering in ui.py.
-- **MCP server**: Mirrors CLI functionality via FastMCP tools in mcp_server.py
+- **Filter cascade**: `resolvedFilters()` in cli.ts resolves: hardcoded defaults -> "default" preset -> explicit preset -> CLI flags
+- **Scoring**: 8 weighted components in scoring.ts produce a 0-100 score per token
+- **Scan profiles**: strict/balanced/discovery baselines in cli.ts with chain multipliers
+- **MCP server**: Mirrors CLI functionality via @modelcontextprotocol/sdk tools in mcp-server.ts
 - **State**: JSON files in ~/.dexplorer-cli/ (presets.json, tasks.json, runs.json)
 
 ## Testing
 
 ```bash
-ds hot --chains solana --limit 5    # Quick scan test
-ds doctor                           # Health check
-python -m dexplorer_cli hot --json  # JSON output test
+node dist/cli.js hot --chains solana --limit 5 --json  # Quick JSON scan test
+node dist/cli.js doctor                                 # Health check
 ```
 
 ## Dependencies
 
-Python 3.11+, httpx, rich, typer, mcp, python-dotenv. Optional: MORALIS_API_KEY env var for holder data.
+Node.js 18+, @modelcontextprotocol/sdk, commander, chalk, zod, dotenv. Optional: MORALIS_API_KEY env var for holder data.
