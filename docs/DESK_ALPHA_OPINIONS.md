@@ -4,7 +4,7 @@ Date consulted: 2026-03-03
 Source command:
 
 ```bash
-python ../desk-of-best-traders/scripts/desk.py --trade --timeout 180 "You are advising a terminal-only Dexscreener scanner product..."
+python ../desk-of-best-traders/scripts/desk.py --trade --timeout 180 "You are advising a terminal-only Dexplorer scanner product..."
 ```
 
 ## Key Recommendations

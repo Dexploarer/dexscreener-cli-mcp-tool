@@ -3,7 +3,7 @@ set -e
 
 echo ""
 echo "  ===================================="
-echo "   Dexscreener CLI - Quick Install"
+echo "   Dexplorer CLI - Quick Install"
 echo "  ===================================="
 echo ""
 
@@ -37,5 +37,5 @@ echo "    ds search pepe    - Search tokens"
 echo "    ds --help         - All commands"
 echo ""
 echo "  MCP server:"
-echo "    dexscreener-mcp   - Start MCP server (stdio)"
+echo "    dexplorer-mcp   - Start MCP server (stdio)"
 echo ""

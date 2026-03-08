@@ -227,7 +227,7 @@ class TaskRunRecord:
 
 class StateStore:
     def __init__(self, base_dir: Path | None = None) -> None:
-        self.base_dir = base_dir or (Path.home() / ".dexscreener-cli")
+        self.base_dir = base_dir or (Path.home() / ".dexplorer-cli")
         self.base_dir.mkdir(parents=True, exist_ok=True)
         self.lock_file = self.base_dir / ".state.lock"
         self.presets_file = self.base_dir / "presets.json"

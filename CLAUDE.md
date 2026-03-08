@@ -1,4 +1,4 @@
-# CLAUDE.md - Dexscreener Unofficial CLI + MCP + Skills
+# CLAUDE.md - Dexplorer CLI + MCP + Skills
 
 ## What This Is
 
@@ -13,13 +13,13 @@ ds watch --interval 7              # Live dashboard
 ds search pepe                     # Search tokens
 ds doctor                          # Diagnose setup issues
 ds update                          # Pull latest and reinstall
-dexscreener-mcp                    # Start MCP server
+dexplorer-mcp                    # Start MCP server
 ```
 
 ## Project Structure
 
 ```
-dexscreener_cli/
+dexplorer_cli/
   cli.py          - CLI commands (Typer). Entry point: ds
   ui.py           - Terminal rendering (Rich). All visual code here.
   scanner.py      - Token discovery, scoring pipeline
@@ -28,8 +28,8 @@ dexscreener_cli/
   holders.py      - Multi-provider holder counts (GeckoTerminal -> Moralis -> Blockscout -> Honeypot)
   client.py       - Dexscreener API client with rate limiting
   config.py       - Constants, ScanFilters dataclass
-  state.py        - Presets/tasks persistence (~/.dexscreener-cli/)
-  mcp_server.py   - MCP server (FastMCP). Entry point: dexscreener-mcp
+  state.py        - Presets/tasks persistence (~/.dexplorer-cli/)
+  mcp_server.py   - MCP server (FastMCP). Entry point: dexplorer-mcp
   alerts.py       - Discord/Telegram/webhook alert delivery
   task_runner.py   - Task execution and scheduling
   watch_controls.py - Keyboard controls for live mode
@@ -42,14 +42,14 @@ dexscreener_cli/
 - **Scan profiles**: strict/balanced/discovery baselines in cli.py with chain multipliers
 - **UI separation**: Only cli.py imports from ui.py. All rendering in ui.py.
 - **MCP server**: Mirrors CLI functionality via FastMCP tools in mcp_server.py
-- **State**: JSON files in ~/.dexscreener-cli/ (presets.json, tasks.json, runs.json)
+- **State**: JSON files in ~/.dexplorer-cli/ (presets.json, tasks.json, runs.json)
 
 ## Testing
 
 ```bash
 ds hot --chains solana --limit 5    # Quick scan test
 ds doctor                           # Health check
-python -m dexscreener_cli hot --json  # JSON output test
+python -m dexplorer_cli hot --json  # JSON output test
 ```
 
 ## Dependencies

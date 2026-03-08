@@ -4,8 +4,8 @@ import json
 
 from typer.testing import CliRunner
 
-from dexscreener_cli.cli import app
-from dexscreener_cli.models import PairSnapshot
+from dexplorer_cli.cli import app
+from dexplorer_cli.models import PairSnapshot
 
 
 def _make_pair(**overrides: object) -> PairSnapshot:
@@ -74,9 +74,9 @@ async def _noop_hydrate(*_args: object, **_kwargs: object) -> None:
 
 
 def test_search_json_output(monkeypatch) -> None:
-    monkeypatch.setattr("dexscreener_cli.cli.DexScreenerClient", _FakeClient)
-    monkeypatch.setattr("dexscreener_cli.cli.HotScanner", _FakeScanner)
-    monkeypatch.setattr("dexscreener_cli.cli.hydrate_pair_holders", _noop_hydrate)
+    monkeypatch.setattr("dexplorer_cli.cli.DexplorerClient", _FakeClient)
+    monkeypatch.setattr("dexplorer_cli.cli.HotScanner", _FakeScanner)
+    monkeypatch.setattr("dexplorer_cli.cli.hydrate_pair_holders", _noop_hydrate)
 
     runner = CliRunner()
     result = runner.invoke(app, ["search", "pepe", "--limit", "1", "--json"])
@@ -88,9 +88,9 @@ def test_search_json_output(monkeypatch) -> None:
 
 
 def test_inspect_json_output(monkeypatch) -> None:
-    monkeypatch.setattr("dexscreener_cli.cli.DexScreenerClient", _FakeClient)
-    monkeypatch.setattr("dexscreener_cli.cli.HotScanner", _FakeScanner)
-    monkeypatch.setattr("dexscreener_cli.cli.hydrate_pair_holders", _noop_hydrate)
+    monkeypatch.setattr("dexplorer_cli.cli.DexplorerClient", _FakeClient)
+    monkeypatch.setattr("dexplorer_cli.cli.HotScanner", _FakeScanner)
+    monkeypatch.setattr("dexplorer_cli.cli.hydrate_pair_holders", _noop_hydrate)
 
     runner = CliRunner()
     result = runner.invoke(app, ["inspect", "TOKENX", "--chain", "solana", "--json"])

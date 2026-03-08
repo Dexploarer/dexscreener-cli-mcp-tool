@@ -1,7 +1,7 @@
 # Product Requirements Document (PRD)
 
 ## Product
-`dexscreener-cli-mcp-tool`
+`dexplorer-cli-mcp-tool`
 
 ## Date
 March 3, 2026

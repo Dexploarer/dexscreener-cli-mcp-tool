@@ -56,8 +56,8 @@
    - `last_run_at`
 
 ## Storage
-1. File: `%USERPROFILE%/.dexscreener-cli/presets.json`
-2. File: `%USERPROFILE%/.dexscreener-cli/tasks.json`
+1. File: `%USERPROFILE%/.dexplorer-cli/presets.json`
+2. File: `%USERPROFILE%/.dexplorer-cli/tasks.json`
 
 ## CLI API (Planned)
 1. `ds preset save`

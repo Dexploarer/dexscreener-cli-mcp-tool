@@ -54,7 +54,7 @@ class SlidingWindowLimiter:
             await asyncio.sleep(max(wait_for, 0.05))
 
 
-class DexScreenerClient:
+class DexplorerClient:
     def __init__(self, cache_ttl_seconds: int = CACHE_TTL_SECONDS) -> None:
         self._client = httpx.AsyncClient(
             base_url=API_BASE,
@@ -83,7 +83,7 @@ class DexScreenerClient:
             "bucket_wait_seconds": {"slow": 0.0, "fast": 0.0},
         }
 
-    async def __aenter__(self) -> DexScreenerClient:
+    async def __aenter__(self) -> DexplorerClient:
         return self
 
     async def __aexit__(self, *_: Any) -> None:

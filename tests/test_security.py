@@ -3,11 +3,11 @@ from __future__ import annotations
 
 import pytest
 
-from dexscreener_cli.alerts import _build_delivery_target, _SafeTemplate, _sanitize_channel_error, validate_webhook_url
-from dexscreener_cli.cli import _build_alert_config as build_cli_alert_config
-from dexscreener_cli.client import _validate_path_segment
-from dexscreener_cli.task_runner import _sanitize_error
-from dexscreener_cli.watch_controls import _sanitize_clipboard
+from dexplorer_cli.alerts import _build_delivery_target, _SafeTemplate, _sanitize_channel_error, validate_webhook_url
+from dexplorer_cli.cli import _build_alert_config as build_cli_alert_config
+from dexplorer_cli.client import _validate_path_segment
+from dexplorer_cli.task_runner import _sanitize_error
+from dexplorer_cli.watch_controls import _sanitize_clipboard
 
 
 class TestWebhookValidation:

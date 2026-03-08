@@ -331,7 +331,7 @@ async def _dispatch_channels(
             resp = await _post_json(
                 webhook,
                 {
-                    "event": "dexscreener.task.alert",
+                    "event": "dexplorer.task.alert",
                     "test": is_test,
                     "task": {"id": task.id, "name": task.name},
                     "timestamp": now.isoformat(),
@@ -388,7 +388,7 @@ async def _dispatch_channels(
                     "content": f"[{'TEST' if is_test else 'ALERT'}] {task.name}",
                     "embeds": [
                         {
-                            "title": "Dexscreener Signal",
+                            "title": "Dexplorer Signal",
                             "description": message[:3000],
                             "color": 3066993 if not is_test else 3447003,
                             "fields": fields,

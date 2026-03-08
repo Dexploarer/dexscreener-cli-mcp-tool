@@ -16,7 +16,7 @@ from .models import HotTokenCandidate, PairSnapshot
 from .scoring import build_distribution_heuristics
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# Dexscreener-inspired color palette
+# Dexplorer-inspired color palette
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 # Core palette - dark backgrounds, muted borders, punchy data colors
@@ -26,9 +26,9 @@ C_TITLE = "#e5e7eb"            # off-white for titles
 C_LABEL = "#6b7280"            # medium grey for labels
 C_DIM = "#4b5563"              # dark grey for dim text
 C_TEXT = "#d1d5db"             # light grey primary text
-C_GREEN = "#4ade80"            # dexscreener lime green (positive)
+C_GREEN = "#4ade80"            # dexplorer lime green (positive)
 C_GREEN_BRIGHT = "#22c55e"     # brighter green for strong positive
-C_RED = "#f87171"              # dexscreener coral red (negative)
+C_RED = "#f87171"              # dexplorer coral red (negative)
 C_RED_BRIGHT = "#ef4444"       # brighter red for strong negative
 C_GOLD = "#fbbf24"             # amber/gold for token symbols, highlights
 C_AMBER = "#f59e0b"            # deeper amber
@@ -530,7 +530,7 @@ def build_header() -> Panel:
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")
 
     content = Text()
-    content.append("DEXSCREENER CLI", style=f"bold {C_WHITE}")
+    content.append("DEXPLORER CLI", style=f"bold {C_WHITE}")
     content.append("\n")
     content.append("Live Signal Terminal", style=C_LABEL)
     content.append(_safe_text(f"  {DOT}  "), style=C_BORDER)

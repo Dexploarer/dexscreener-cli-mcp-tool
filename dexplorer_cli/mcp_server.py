@@ -5,7 +5,7 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 
 from .alerts import send_test_alert, validate_webhook_url
-from .client import DexScreenerClient
+from .client import DexplorerClient
 from .config import DEFAULT_CHAINS, ScanFilters
 from .models import HotTokenCandidate
 from .scanner import HotScanner
@@ -13,7 +13,7 @@ from .scoring import build_distribution_heuristics
 from .state import ScanPreset, StateStore
 from .task_runner import execute_task_once, select_due_tasks
 
-mcp = FastMCP("dexscreener-cli-mcp-tool")
+mcp = FastMCP("dexplorer-cli-mcp-tool")
 SCAN_PROFILE_NAMES: tuple[str, ...] = ("strict", "balanced", "discovery")
 SCAN_PROFILE_BASELINES: dict[str, dict[str, float]] = {
     "strict": {"min_liquidity_usd": 35_000.0, "min_volume_h24_usd": 90_000.0, "min_txns_h1": 50.0},
@@ -210,7 +210,7 @@ async def scan_hot_tokens(
     min_volume_h24_usd = _bounded_float(min_volume_h24_usd, minimum=0.0, label="min_volume_h24_usd")
     min_txns_h1 = _bounded_int(min_txns_h1, minimum=0, maximum=1_000_000, label="min_txns_h1")
     chain_ids = tuple(c.strip().lower() for c in chains.split(",") if c.strip())
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         scanner = HotScanner(client)
         filters = ScanFilters(
             chains=chain_ids or DEFAULT_CHAINS,
@@ -235,7 +235,7 @@ async def get_rate_budget_stats(
     Use this to verify API health or debug rate limiting issues.
     Returns request counts, remaining budget, and timing info.
     """
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         if query.strip():
             try:
                 await client.search_pairs(query.strip())
@@ -440,7 +440,7 @@ async def run_task_scan(task: str, fire_alerts: bool = True) -> dict[str, Any]:
     if not row:
         return {"error": f"Task '{task}' not found"}
 
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         scanner = HotScanner(client)
         result = await execute_task_once(
             store=store,
@@ -490,7 +490,7 @@ async def run_due_tasks(
     )
 
     cycle_results: list[dict[str, Any]] = []
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         scanner = HotScanner(client)
         for task in due:
             result = await execute_task_once(
@@ -536,7 +536,7 @@ async def test_task_alert(task: str, with_scan: bool = False) -> dict[str, Any]:
         return {"error": f"Task '{task}' not found"}
     candidates: list[HotTokenCandidate] = []
     if with_scan:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             scanner = HotScanner(client)
             result = await execute_task_once(
                 store=store,
@@ -614,7 +614,7 @@ async def search_pairs(query: str, limit: int = 20) -> list[dict[str, Any]]:
     volume, liquidity, and pair URL.
     """
     limit = _bounded_int(limit, minimum=1, maximum=_MAX_LIMIT, label="limit")
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         scanner = HotScanner(client)
         pairs = await scanner.search(query=query, limit=limit)
         return [
@@ -642,7 +642,7 @@ async def inspect_token(chain_id: str, token_address: str) -> dict[str, Any]:
     and concentration proxy analysis. Use this when a user provides a specific
     token address and wants detailed information.
     """
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         scanner = HotScanner(client)
         pairs = await scanner.inspect_token(chain_id=chain_id, token_address=token_address)
         if not pairs:
@@ -682,18 +682,18 @@ async def inspect_token(chain_id: str, token_address: str) -> dict[str, Any]:
         }
 
 
-@mcp.resource("dexscreener://profiles", name="profiles", description="Recommended scan profiles.")
+@mcp.resource("dexplorer://profiles", name="profiles", description="Recommended scan profiles.")
 async def resource_profiles() -> dict[str, Any]:
     return {"profiles": SCAN_PROFILE_BASELINES, "names": list(SCAN_PROFILE_NAMES)}
 
 
-@mcp.resource("dexscreener://presets", name="presets", description="Current saved scan presets.")
+@mcp.resource("dexplorer://presets", name="presets", description="Current saved scan presets.")
 async def resource_presets() -> dict[str, Any]:
     store = StateStore()
     return {"count": len(store.list_presets()), "items": [p.to_dict() for p in store.list_presets()]}
 
 
-@mcp.resource("dexscreener://tasks", name="tasks", description="Current saved scan tasks.")
+@mcp.resource("dexplorer://tasks", name="tasks", description="Current saved scan tasks.")
 async def resource_tasks() -> dict[str, Any]:
     store = StateStore()
     return {"count": len(store.list_tasks()), "items": [t.to_dict() for t in store.list_tasks()]}
@@ -708,7 +708,7 @@ def prompt_alpha_scan_plan(
     selected_profile = profile if profile in SCAN_PROFILE_NAMES else "balanced"
     baseline = SCAN_PROFILE_BASELINES[selected_profile]
     return (
-        "Build an execution-first scan plan for dexscreener-cli-mcp-tool.\n"
+        "Build an execution-first scan plan for dexplorer-cli-mcp-tool.\n"
         f"Objective: {objective}\n"
         f"Chains: {chains}\n"
         f"Profile: {selected_profile}\n"

@@ -1,7 +1,7 @@
 [project]
-name = "dexscreener-cli-mcp-tool"
+name = "dexplorer-cli-mcp-tool"
 version = "0.1.0"
-description = "Dexscreener Unofficial CLI + MCP + Skills - free token scanner with AI agent support"
+description = "Dexplorer CLI + MCP + Skills - free token scanner with AI agent support"
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "vibeforge1111" }]
@@ -22,8 +22,8 @@ dev = [
 ]
 
 [project.scripts]
-ds = "dexscreener_cli.cli:app"
-dexscreener-mcp = "dexscreener_cli.mcp_server:main"
+ds = "dexplorer_cli.cli:app"
+dexplorer-mcp = "dexplorer_cli.mcp_server:main"
 
 [build-system]
 requires = ["setuptools>=78.1.1", "wheel"]
@@ -60,4 +60,4 @@ ignore = [
 "tests/**" = ["S101"]  # assert is fine in tests
 
 [tool.setuptools.packages.find]
-include = ["dexscreener_cli*"]
+include = ["dexplorer_cli*"]

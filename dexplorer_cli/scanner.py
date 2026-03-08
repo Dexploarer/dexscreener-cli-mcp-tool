@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from statistics import median
 from typing import Any
 
-from .client import DexScreenerClient
+from .client import DexplorerClient
 from .config import ScanFilters
 from .holders import hydrate_pair_holders
 from .models import CandidateAnalytics, HotTokenCandidate, PairSnapshot
@@ -25,7 +25,7 @@ class _SeedToken:
 
 
 class HotScanner:
-    def __init__(self, client: DexScreenerClient) -> None:
+    def __init__(self, client: DexplorerClient) -> None:
         self._client = client
         self._boost_history: dict[tuple[str, str], tuple[float, float]] = {}
         self._momentum_history: dict[tuple[str, str], list[tuple[float, float]]] = {}

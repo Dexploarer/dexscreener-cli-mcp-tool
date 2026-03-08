@@ -1,4 +1,4 @@
-"""Dexscreener CLI + MCP tool."""
+"""Dexplorer CLI + MCP tool."""
 
 __all__ = ["__version__"]
 

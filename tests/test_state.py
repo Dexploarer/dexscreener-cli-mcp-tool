@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from dexscreener_cli.config import ScanFilters
-from dexscreener_cli.state import ScanPreset, StateStore
+from dexplorer_cli.config import ScanFilters
+from dexplorer_cli.state import ScanPreset, StateStore
 
 
 @pytest.fixture()

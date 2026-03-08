@@ -1,12 +1,12 @@
 # System Architecture
 
 ## High-Level Components
-1. CLI Layer (`dexscreener_cli/cli.py`)
-2. MCP Layer (`dexscreener_cli/mcp_server.py`)
-3. Scanner Orchestration (`dexscreener_cli/scanner.py`)
-4. API Client + Rate Limiter (`dexscreener_cli/client.py`)
-5. Scoring Engine (`dexscreener_cli/scoring.py`)
-6. UI Rendering (`dexscreener_cli/ui.py`)
+1. CLI Layer (`dexplorer_cli/cli.py`)
+2. MCP Layer (`dexplorer_cli/mcp_server.py`)
+3. Scanner Orchestration (`dexplorer_cli/scanner.py`)
+4. API Client + Rate Limiter (`dexplorer_cli/client.py`)
+5. Scoring Engine (`dexplorer_cli/scoring.py`)
+6. UI Rendering (`dexplorer_cli/ui.py`)
 7. Local State (new): presets/tasks store
 
 ## Flow Overview
@@ -46,7 +46,7 @@
 
 ## Persistence Layout (Planned)
 Base directory:
-`%USERPROFILE%/.dexscreener-cli/`
+`%USERPROFILE%/.dexplorer-cli/`
 
 Files:
 1. `presets.json`

@@ -24,7 +24,7 @@ from rich.table import Table
 from rich.text import Text
 
 from .alerts import send_alerts, send_test_alert, validate_webhook_url
-from .client import DexScreenerClient
+from .client import DexplorerClient
 from .config import CACHE_TTL_SECONDS, DEFAULT_CHAINS, ScanFilters
 from .holders import hydrate_pair_holders, hydrate_token_rows_with_holders
 from .models import HotTokenCandidate, PairSnapshot
@@ -57,7 +57,7 @@ from .watch_controls import WatchKeyboardController, copy_to_clipboard
 
 app = typer.Typer(
     add_completion=False,
-    help="Visual Dexscreener scanner CLI. Spot hot runners and inspect pair flow from the terminal.",
+    help="Visual Dexplorer scanner CLI. Spot hot runners and inspect pair flow from the terminal.",
 )
 preset_app = typer.Typer(help="Save and reuse named scan filter presets.")
 task_app = typer.Typer(help="Manage repeatable scan tasks.")
@@ -438,7 +438,7 @@ def _build_alert_config(
 
 
 async def _scan(filters: ScanFilters) -> list[HotTokenCandidate]:
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         scanner = HotScanner(client)
         return await scanner.scan(filters)
 
@@ -469,7 +469,7 @@ async def _scan_alpha_drops(
         min_txns_h1=min_txns_h1,
         min_price_change_h1=min_price_change_h1,
     )
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         scanner = HotScanner(client)
         raw = await scanner.scan(filters)
     return _select_new_runners(
@@ -497,7 +497,7 @@ async def _scan_ai_tokens(
 ) -> list[dict[str, object]]:
     chain = chain.lower().strip()
     all_pairs: list[dict[str, object]] = []
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         for query in AI_SEARCH_QUERIES:
             rows = await client.search_pairs(query)
             all_pairs.extend(rows)
@@ -588,7 +588,7 @@ async def _scan_new_launches(
     cutoff_ms = now_ms - window_ms
 
     all_rows: list[dict[str, object]] = []
-    async with DexScreenerClient() as client:
+    async with DexplorerClient() as client:
         for query in NEW_TOKEN_SEARCH_QUERIES:
             try:
                 rows = await client.search_pairs(query)
@@ -989,7 +989,7 @@ def setup() -> None:
     console.print()
     console.print(
         Panel(
-            "[bold]Welcome to the Dexscreener CLI setup wizard.[/bold]\n"
+            "[bold]Welcome to the Dexplorer CLI setup wizard.[/bold]\n"
             "Answer 5 quick questions to calibrate your scanner.\n"
             "Your settings are saved and auto-loaded on every scan.",
             border_style="#3a3d4a",
@@ -1134,7 +1134,7 @@ def update(
             console.print("[dim]Update cancelled.[/dim]")
             raise typer.Exit()
 
-    console.print("[bold]Updating Dexscreener CLI...[/bold]\n")
+    console.print("[bold]Updating Dexplorer CLI...[/bold]\n")
 
     # Git pull
     try:
@@ -1714,7 +1714,7 @@ def new_runners_watch(
     )
 
     async def loop() -> None:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             scanner = HotScanner(client)
             previous_ranks: dict[tuple[str, str], int] = {}
             previous_candidates: dict[tuple[str, str], HotTokenCandidate] = {}
@@ -1856,7 +1856,7 @@ def watch(
     )
 
     async def loop() -> None:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             scanner = HotScanner(client)
             previous_candidates: dict[tuple[str, str], HotTokenCandidate] = {}
             cycle = 0
@@ -1905,7 +1905,7 @@ def inspect(
     """Inspect a token or specific pair with concentration proxies."""
 
     async def run_inspect() -> None:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             scanner = HotScanner(client)
             if pair:
                 p = await scanner.inspect_pair(chain, address)
@@ -1975,10 +1975,10 @@ def search(
     limit: Annotated[int, typer.Option(help="Max result rows")] = 20,
     as_json: Annotated[bool, typer.Option("--json", help="Output machine-readable JSON")] = False,
 ) -> None:
-    """Search across Dexscreener pairs."""
+    """Search across Dexplorer pairs."""
 
     async def run_search() -> None:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             scanner = HotScanner(client)
             pairs = await scanner.search(query=query, limit=limit)
             await hydrate_pair_holders(pairs, max_pairs=limit)
@@ -2004,7 +2004,7 @@ def god_prompt() -> None:
 
 @app.command("why")
 def why() -> None:
-    """Explain why Dexscreener is used and what this CLI optimizes."""
+    """Explain why the Dexscreener API is used and what Dexplorer optimizes."""
     payload = {
         "top_use_cases": [
             "Fast discovery of active pools and cross-chain momentum.",
@@ -2090,7 +2090,7 @@ def rate_stats(
     """Show client runtime rate/budget stats for a short warmup run."""
 
     async def run_stats() -> dict[str, object]:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             if query.strip():
                 try:
                     await client.search_pairs(query.strip())
@@ -2483,7 +2483,7 @@ def task_run(
         raise typer.Exit(code=1)
 
     async def _run_once() -> dict[str, object]:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             scanner = HotScanner(client)
             return await execute_task_once(
                 store=store,
@@ -2553,7 +2553,7 @@ def task_daemon(
         raise typer.Exit(code=1)
 
     async def loop() -> None:
-        async with DexScreenerClient() as client:
+        async with DexplorerClient() as client:
             scanner = HotScanner(client)
             cycle = 0
             while True:
@@ -2619,7 +2619,7 @@ def task_test_alert(
     async def _run() -> dict[str, Any]:
         candidates: list[HotTokenCandidate] = []
         if with_scan:
-            async with DexScreenerClient() as client:
+            async with DexplorerClient() as client:
                 scanner = HotScanner(client)
                 candidates = await scanner.scan(_filters_for_task(row, store))
         return await send_test_alert(row, candidates=candidates)
@@ -2677,7 +2677,7 @@ def task_runs(
 
 @state_app.command("export")
 def state_export(
-    path: Annotated[str, typer.Option(help="Output file path")] = "dexscreener-state-export.json",
+    path: Annotated[str, typer.Option(help="Output file path")] = "dexplorer-state-export.json",
 ) -> None:
     """Export presets/tasks/runs into one JSON file."""
     store = StateStore()
@@ -2689,7 +2689,7 @@ def state_export(
 
 @state_app.command("import")
 def state_import(
-    path: Annotated[str, typer.Option(help="Input file path")] = "dexscreener-state-export.json",
+    path: Annotated[str, typer.Option(help="Input file path")] = "dexplorer-state-export.json",
     mode: Annotated[str, typer.Option(help="merge or replace")] = "merge",
 ) -> None:
     """Import presets/tasks/runs from a JSON export."""

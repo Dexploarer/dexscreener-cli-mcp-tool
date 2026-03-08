@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dexscreener_cli.models import PairSnapshot
+from dexplorer_cli.models import PairSnapshot
 
 
 def test_pair_snapshot_from_api_handles_non_dict_nested_payloads() -> None:

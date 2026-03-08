@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import time
 
-from dexscreener_cli.scanner import HotScanner
+from dexplorer_cli.scanner import HotScanner
 
 
 def test_prune_histories_drops_stale_and_excess_entries() -> None:

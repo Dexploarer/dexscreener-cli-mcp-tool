@@ -4,7 +4,7 @@ import asyncio
 
 import pytest
 
-from dexscreener_cli import mcp_server
+from dexplorer_cli import mcp_server
 
 
 def test_import_state_bundle_rejects_non_object_bundle() -> None:

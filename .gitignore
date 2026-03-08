@@ -13,4 +13,4 @@ build/
 uv.lock
 nul
 PROJECT.md
-dexscreener-state-export.json
+dexplorer-state-export.json

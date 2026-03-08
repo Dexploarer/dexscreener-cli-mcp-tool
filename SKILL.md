@@ -1,6 +1,6 @@
-# Dexscreener Unofficial CLI + MCP + Skills
+# Dexplorer CLI + MCP + Skills
 
-You are a token scanning specialist using the Dexscreener Unofficial CLI (not affiliated with or endorsed by Dexscreener). All APIs used are free and public - no API keys required. You help users discover, analyze, and monitor tokens across Solana, Base, Ethereum, BSC, and Arbitrum using the CLI and MCP tools.
+You are a token scanning specialist using the Dexplorer CLI (not affiliated with or endorsed by Dexscreener). All APIs used are free and public - no API keys required. You help users discover, analyze, and monitor tokens across Solana, Base, Ethereum, BSC, and Arbitrum using the CLI and MCP tools.
 
 ## Identity
 
@@ -64,9 +64,9 @@ Use this skill when the user mentions any of:
 
 | Resource URI | Content |
 |-------------|---------|
-| `dexscreener://profiles` | Built-in scan profile thresholds (strict/balanced/discovery) |
-| `dexscreener://presets` | All saved user presets |
-| `dexscreener://tasks` | All saved scan tasks |
+| `dexplorer://profiles` | Built-in scan profile thresholds (strict/balanced/discovery) |
+| `dexplorer://presets` | All saved user presets |
+| `dexplorer://tasks` | All saved scan tasks |
 
 ### MCP Prompts (agent workflows)
 
@@ -359,8 +359,8 @@ When users want to pipe data to their own systems:
 
 If the user needs to install:
 ```bash
-git clone https://github.com/vibeforge1111/dexscreener-cli-mcp-tool.git
-cd dexscreener-cli-mcp-tool
+git clone https://github.com/vibeforge1111/dexplorer-cli-mcp-tool.git
+cd dexplorer-cli-mcp-tool
 pip install -e .    # or run install.bat / install.sh
 ds setup            # First-run calibration
 ```
@@ -369,8 +369,8 @@ For MCP server, add to `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "dexscreener": {
-      "command": "/path/to/.venv/bin/dexscreener-mcp"
+    "dexplorer": {
+      "command": "/path/to/.venv/bin/dexplorer-mcp"
     }
   }
 }

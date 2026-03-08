@@ -1,8 +1,8 @@
 """Tests for the scoring engine."""
 from __future__ import annotations
 
-from dexscreener_cli.models import HotTokenCandidate, PairSnapshot
-from dexscreener_cli.scoring import build_distribution_heuristics, score_hotness, score_hotness_detail
+from dexplorer_cli.models import HotTokenCandidate, PairSnapshot
+from dexplorer_cli.scoring import build_distribution_heuristics, score_hotness, score_hotness_detail
 
 
 def _make_pair(**overrides: object) -> PairSnapshot:

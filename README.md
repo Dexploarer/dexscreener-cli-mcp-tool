@@ -1,6 +1,6 @@
-# Dexscreener Unofficial CLI + MCP + Skills
+# Dexplorer CLI + MCP + Skills
 
-![Dexscreener CLI Screenshot](assets/screenshot.png)
+![Dexplorer CLI Screenshot](assets/screenshot.png)
 
 **100% free to use.** All APIs included are public and free - no Dexscreener API key required to get started. Optional free Moralis key unlocks holder data.
 
@@ -26,8 +26,8 @@ You need **Python 3.11+** and **Git** installed. Then follow these 3 steps:
 Open a terminal (Command Prompt, PowerShell, or Terminal) and paste this:
 
 ```bash
-git clone https://github.com/vibeforge1111/dexscreener-cli-mcp-tool.git
-cd dexscreener-cli-mcp-tool
+git clone https://github.com/vibeforge1111/dexplorer-cli-mcp-tool.git
+cd dexplorer-cli-mcp-tool
 ```
 
 ### Step 2: Run the installer
@@ -309,7 +309,7 @@ ds hot --chains solana --limit 5 --json > tokens.json
 
 Start the MCP server and connect it to Claude, Codex, or any MCP-compatible agent:
 ```bash
-dexscreener-mcp
+dexplorer-mcp
 ```
 
 Then ask in natural language: "What's hot on Solana?" or "Find new tokens on Base with high volume."
@@ -340,29 +340,29 @@ The agent calls the right MCP tool with the right parameters. You get the same d
 ```json
 {
   "mcpServers": {
-    "dexscreener": {
-      "command": "path/to/dexscreener-cli-mcp-tool/.venv/Scripts/dexscreener-mcp",
+    "dexplorer": {
+      "command": "path/to/dexplorer-cli-mcp-tool/.venv/Scripts/dexplorer-mcp",
       "args": []
     }
   }
 }
 ```
 
-On Mac/Linux use `.venv/bin/dexscreener-mcp` instead of `.venv/Scripts/dexscreener-mcp`.
+On Mac/Linux use `.venv/bin/dexplorer-mcp` instead of `.venv/Scripts/dexplorer-mcp`.
 
 **Claude Code** - add to your `.mcp.json` or project settings:
 
 ```json
 {
   "mcpServers": {
-    "dexscreener": {
-      "command": "path/to/dexscreener-cli-mcp-tool/.venv/Scripts/dexscreener-mcp"
+    "dexplorer": {
+      "command": "path/to/dexplorer-cli-mcp-tool/.venv/Scripts/dexplorer-mcp"
     }
   }
 }
 ```
 
-**Any MCP-compatible agent** (Codex, OpenClaw, etc.) - point it at the `dexscreener-mcp` binary in the `.venv` folder. It communicates over stdio.
+**Any MCP-compatible agent** (Codex, OpenClaw, etc.) - point it at the `dexplorer-mcp` binary in the `.venv` folder. It communicates over stdio.
 
 **Step 3:** Start talking.
 
@@ -409,7 +409,7 @@ For reference, these are the tools the agent has access to:
 | `import_state_bundle` | Import a config bundle |
 | `get_rate_budget_stats` | Check API rate limits and usage |
 
-Plus 3 resources (`dexscreener://profiles`, `dexscreener://presets`, `dexscreener://tasks`) and 2 prompts (`alpha_scan_plan`, `runner_triage`).
+Plus 3 resources (`dexplorer://profiles`, `dexplorer://presets`, `dexplorer://tasks`) and 2 prompts (`alpha_scan_plan`, `runner_triage`).
 
 ---
 
@@ -612,7 +612,7 @@ pip install -e .
 ## Project Structure
 
 ```
-dexscreener_cli/
+dexplorer_cli/
   cli.py          - All CLI commands (Typer)
   ui.py           - Terminal rendering (Rich)
   scanner.py      - Token discovery and scanning
